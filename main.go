@@ -25,7 +25,11 @@ func init() {
 	styles = template.CSS(contents)
 }
 
-var pdfTemplate = template.Must(template.ParseFiles("./templates/layout.html.tmpl", "./templates/invoice.html.tmpl"))
+var pdfTemplate = template.Must(template.New("layout.html.tmpl").Funcs(template.FuncMap{
+	"format_date": func(date time.Time) string {
+		return date.Format("02.01.2006")
+	},
+}).ParseFiles("./templates/layout.html.tmpl", "./templates/invoice.html.tmpl"))
 
 func generateFilename() string {
 	var bytes = make([]byte, 4)
@@ -102,10 +106,13 @@ func generatePDFFromSource(source []byte) ([]byte, error) {
 
 func main() {
 	source := bytes.NewBuffer([]byte{})
-	pdfTemplate.Execute(source, invoiceAssigns{
+	err := pdfTemplate.Execute(source, invoiceAssigns{
 		Styles:  styles,
 		Invoice: generateInvoice(time.Now()),
 	})
+	if err != nil {
+		log.Print(err)
+	}
 
 	// Serve the newly generated PDF file to the browser to view the generated PDF
 	http.Handle("/pdf", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

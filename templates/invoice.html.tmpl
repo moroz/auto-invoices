@@ -15,12 +15,12 @@
 
     <div>
       <strong>Ausstellungsdatum/Data wystawienia</strong>
-      <p>31.05.2024</p>
+      <p>{{ .Invoice.DateOfIssue | format_date }}</p>
     </div>
 
     <div>
       <strong>Verkaufsdatum/Data sprzedaży</strong>
-      <p>31.05.2024</p>
+      <p>{{ .Invoice.DateOfSale | format_date }}</p>
     </div>
   </section>
 
