@@ -1,3 +1,11 @@
+{{ define "customer" }}
+<p class="address">
+  {{ .Name }}<br/>
+  {{ .Address1 }}<br/>
+  {{ .Address2 }}
+</p>
+{{ end }}
+
 {{ define "content" }}
   <section class="metadata">
     <div>
@@ -19,25 +27,18 @@
   <div class="customers">
     <div class="customer seller">
       <h2>Verkäufer/Sprzedawca</h2>
-      <p class="address">
-      ACME Corp.<br/>
-      42 Something Drive<br/>
-      00000 New York City, NY
-      </p>
+      {{ template "customer" .Invoice.Seller }}
     </div>
 
     <div class="customer buyer">
       <h2>Käufer/Nabywca</h2>
-      <p class="address">
-      XYZ Corp.<br/>
-      Tokyo, Shibuya Ward,<br/> 42 Something Street
-      </p>
+      {{ template "customer" .Invoice.Buyer }}
     </div>
   </div>
 
   <header>
-    <h1>Rechnung 01/05/2024</h1>
-    <h2>Faktura 01/05/2024</h2>
+    <h1>Rechnung {{ .Invoice.InvoiceNo }}</h1>
+    <h2>Faktura {{ .Invoice.InvoiceNo }}</h2>
   </header>
   
 {{ end }}

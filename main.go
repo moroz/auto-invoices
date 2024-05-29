@@ -12,6 +12,7 @@ import (
 	"os/exec"
 	"path"
 	"path/filepath"
+	"time"
 )
 
 var styles template.CSS
@@ -25,10 +26,6 @@ func init() {
 }
 
 var pdfTemplate = template.Must(template.ParseFiles("./templates/layout.html.tmpl", "./templates/invoice.html.tmpl"))
-
-type invoiceAssigns struct {
-	Styles template.CSS
-}
 
 func generateFilename() string {
 	var bytes = make([]byte, 4)
@@ -106,7 +103,8 @@ func generatePDFFromSource(source []byte) ([]byte, error) {
 func main() {
 	source := bytes.NewBuffer([]byte{})
 	pdfTemplate.Execute(source, invoiceAssigns{
-		Styles: styles,
+		Styles:  styles,
+		Invoice: generateInvoice(time.Now()),
 	})
 
 	// Serve the newly generated PDF file to the browser to view the generated PDF

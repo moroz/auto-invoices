@@ -1,7 +1,13 @@
 @page {
   size: a4;
-  margin: 5mm;
+  margin: 0 15mm;
   padding: 0;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
 :root {
@@ -12,6 +18,12 @@
 html,
 body {
   font-family: var(--font-family);
+  font-size: 14px;
+}
+
+body {
+  padding-top: 15mm;
+  padding-bottom: 15mm;
 }
 
 .customers {
