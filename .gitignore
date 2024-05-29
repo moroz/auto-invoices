@@ -2,3 +2,4 @@ auto-invoices
 **/*.pdf
 **/*.html
 out/
+server

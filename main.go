@@ -24,7 +24,7 @@ func init() {
 	styles = template.CSS(contents)
 }
 
-var pdfTemplate = template.Must(template.ParseFiles("./templates/layout.html.tmpl"))
+var pdfTemplate = template.Must(template.ParseFiles("./templates/layout.html.tmpl", "./templates/invoice.html.tmpl"))
 
 type invoiceAssigns struct {
 	Styles template.CSS
@@ -120,6 +120,15 @@ func main() {
 		}
 
 		w.Write(pdf)
+	}))
+
+	http.Handle("/html", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write(source.Bytes())
+	}))
+
+	http.Handle("/source", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Content-Type", "text/plain; charset=utf-8")
+		w.Write(source.Bytes())
 	}))
 
 	log.Print("Listening on :3000")
